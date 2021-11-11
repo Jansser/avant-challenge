@@ -54,7 +54,7 @@ export const Select = ({
     <SelectContainer onClick={toggleIsOpen} ref={optionsRef}>
       <SelectLabel>{label}</SelectLabel>
       <SelectHeader>
-        {value ? (
+        {value?.value ? (
           <span>
             {value.groupLabel ? (
               <>
