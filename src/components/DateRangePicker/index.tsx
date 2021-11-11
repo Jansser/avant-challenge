@@ -15,6 +15,7 @@ import {
   SelectLabel,
   SelectPlaceholder,
 } from "./style";
+import { BookingPeriod } from "../../store/type";
 
 export interface Option {
   groupLabel?: string;
@@ -29,14 +30,16 @@ export interface GroupedOption {
 
 interface Props {
   label: string;
-  value?: Option;
+  value?: BookingPeriod;
   placeholder?: string;
+  handleChange: (value: BookingPeriod) => void;
 }
 
 export const DateRangePicker = ({
   label,
   value,
   placeholder = "Select...",
+  handleChange,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleIsOpen = () => setIsOpen(!isOpen);
@@ -53,16 +56,28 @@ export const DateRangePicker = ({
 
   const handleSelect = (dateRange: RangeKeyDict) => {
     if (dateRange.selection) {
-      const dateFormat = "MMM dd, yyyy";
       const { startDate, endDate } = dateRange.selection;
 
       if (startDate && endDate) {
-        setValueLabel(
-          `${format(startDate, dateFormat)} - ${format(endDate, dateFormat)}`
-        );
-      }
+        setDateRange([dateRange.selection]);
 
-      setDateRange([dateRange.selection]);
+        const dateLabelFormat = "MMM dd, yyyy";
+        setValueLabel(
+          `${format(startDate, dateLabelFormat)} - ${format(
+            endDate,
+            dateLabelFormat
+          )}`
+        );
+
+        const bookingPeriodDateFormat = "yyyy-MM-dd";
+
+        const bookingPeriod = {
+          checkIn: format(startDate, bookingPeriodDateFormat),
+          checkOut: format(endDate, bookingPeriodDateFormat),
+        };
+
+        handleChange(bookingPeriod);
+      }
     }
   };
 
