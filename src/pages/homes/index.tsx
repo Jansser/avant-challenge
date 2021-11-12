@@ -8,7 +8,7 @@ import { AppContext } from "../../store/AppContext";
 import { HomesContainer } from "./style";
 
 export const Homes = () => {
-  const { loadingHomes, count, homes } = useContext(AppContext);
+  const { loadingHomes, count, homes, selectedRegion } = useContext(AppContext);
   const hasHomes = !loadingHomes && count > 0;
 
   return (
@@ -22,8 +22,7 @@ export const Homes = () => {
         </>
       )}
 
-      {/* TODO - selectedRegion */}
-      {!hasHomes && <EmptyResults />}
+      {!hasHomes && <EmptyResults selectedRegion={selectedRegion} />}
 
       {homes.map((home) => (
         <HomeCard key={home.id} home={home} divider />

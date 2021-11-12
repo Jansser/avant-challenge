@@ -1,10 +1,32 @@
 import { Button } from "../Button";
 import { Icon } from "../Icons/Icon";
 import { EmptyResultsContainer } from "./style";
+import { Option } from "../Select";
+import { useHistory } from "react-router";
+import { initialRegionOption } from "../../store/useRegions";
 
-export const EmptyResults = () => {
-  const selectedRegion = "";
-  const selectedRegionLabel = selectedRegion ? selectedRegion : "";
+interface Props {
+  selectedRegion: Option;
+}
+
+export const EmptyResults = ({ selectedRegion }: Props) => {
+  const history = useHistory();
+  const selectedRegionLabel =
+    selectedRegion.value !== initialRegionOption.value
+      ? selectedRegion.label
+      : "";
+
+  const redirectToSeeAllHomes = () => {
+    const pathname = selectedRegionLabel
+      ? `/regions/${selectedRegionLabel}`
+      : "/homes";
+
+    history.push({
+      pathname,
+    });
+
+    window.location.reload();
+  };
 
   return (
     <EmptyResultsContainer>
@@ -21,7 +43,7 @@ export const EmptyResults = () => {
         bordered
         secondary
         label={`See all ${selectedRegionLabel} homes`}
-        onClick={() => console.log("redirect to regions home")}
+        onClick={redirectToSeeAllHomes}
       />
     </EmptyResultsContainer>
   );
