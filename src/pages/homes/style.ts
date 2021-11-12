@@ -11,6 +11,8 @@ const HomesContainer = styled.main`
     max-width: 1440px;
     margin: 40px auto;
   }
+
+  overflow: auto;
 `;
 
 export { HomesContainer };

@@ -30,6 +30,7 @@ export const AppStateProvider = ({ children }: Props) => {
   } = useFilter();
 
   const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   const {
     loading: loadingHomes,
@@ -41,9 +42,38 @@ export const AppStateProvider = ({ children }: Props) => {
       period: selectedBookingPeriod || null,
       guests: Number(selectedGuests.value) || 0,
       order: selectedOrder.value,
-      page,
+      page: 1,
     },
   });
+
+  const loadMore = (nextPage: number) => {
+    fetchMore({
+      variables: { page: nextPage },
+
+      updateQuery: (prevResult, { fetchMoreResult }) => {
+        setHasMore(true);
+        if (!fetchMoreResult) {
+          return prevResult;
+        }
+
+        const count = fetchMoreResult?.homes.count;
+        const results = [
+          ...prevResult.homes.results,
+          ...fetchMoreResult.homes.results,
+        ];
+
+        setHasMore(results.length < count);
+        setPage(nextPage);
+
+        return {
+          homes: {
+            count,
+            results,
+          },
+        };
+      },
+    });
+  };
 
   const stateValue: AppState = {
     regionsOptions,
@@ -65,7 +95,8 @@ export const AppStateProvider = ({ children }: Props) => {
 
     loadingHomes,
     page,
-    setPage,
+    loadMore,
+    hasMore,
     count: homesData?.homes.count || 0,
     homes: homesData?.homes.results || [],
   };

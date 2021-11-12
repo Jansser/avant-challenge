@@ -88,5 +88,6 @@ export interface AppState {
   count: number;
   homes: Home[];
   page: number;
-  setPage: (page: number) => void;
+  hasMore: boolean;
+  loadMore: (nextPage: number) => void;
 }
