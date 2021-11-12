@@ -45,6 +45,7 @@ const DatePickerContainer = styled.div`
   border-radius: 3px;
   border: 2px solid ${({ theme }) => theme.colors.accentLighter};
   overflow: auto;
+  z-index: 999;
 `;
 
 const OptionItem = styled.div`

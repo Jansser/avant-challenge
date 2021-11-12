@@ -3,8 +3,10 @@ import styled from "styled-components";
 const FilterContainer = styled.div`
   display: flex;
 
-  > div:nth-child(2) {
-    flex-grow: 2;
+  @media (min-width: ${({ theme }) => theme.media.desktop}px) {
+    > div:nth-child(2) {
+      flex-grow: 2;
+    }
   }
 `;
 

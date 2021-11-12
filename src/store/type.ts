@@ -56,6 +56,16 @@ export interface HomesData {
   homes: HomePaginatedResult;
 }
 
+export interface HomePricing {
+  homeId: string;
+  numberOfNights: number;
+  total: number;
+}
+
+export interface HomePricingData {
+  homesPricing: HomePricing[];
+}
+
 export interface AppState {
   regionsOptions: Option[];
 

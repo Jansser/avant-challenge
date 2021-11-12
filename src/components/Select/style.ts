@@ -50,6 +50,7 @@ const OptionsContainer = styled.div`
   border: 2px solid ${({ theme }) => theme.colors.accentLighter};
   max-height: 70vh;
   overflow: auto;
+  z-index: 999;
 `;
 
 const OptionItem = styled.div`
