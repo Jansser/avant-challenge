@@ -69,23 +69,21 @@ export interface HomePricingData {
 export interface AppState {
   regionsOptions: Option[];
 
-  //  HomeFilter
   selectedRegion: Option;
   handleChangeSelectedRegion: (region: Option) => void;
 
   selectedGuests: Option;
-  setSelectedGuests: (order: Option) => void;
+  handleChangeSelectedGuests: (order: Option) => void;
 
   selectedBookingPeriod?: BookingPeriod;
-  setSelectedBookingPeriod: (value: BookingPeriod) => void;
+  handleChangeSelectedBookingPeriod: (value: BookingPeriod) => void;
 
   selectedOrder: Option;
-  setSelectedOrder: (order: Option) => void;
+  handleChangeSelectedOrder: (order: Option) => void;
 
   coupon: string;
-  setCoupon: (coupon: string) => void;
+  handleChangeCoupon: (coupon: string) => void;
 
-  // End HomeFilter
   loadingHomes: boolean;
   count: number;
   homes: Home[];

@@ -26,13 +26,14 @@ const calculateAverageNightPrice = (
   bookingPeriodPricing: HomePricing | undefined
 ) => {
   let averageNightPricing = 0;
+
   if (
     bookingPeriodPricing &&
     bookingPeriodPricing.numberOfNights &&
     bookingPeriodPricing.total
   ) {
-    averageNightPricing =
-      bookingPeriodPricing.total / bookingPeriodPricing.numberOfNights;
+    const { total, numberOfNights } = bookingPeriodPricing;
+    averageNightPricing = total / numberOfNights;
   }
 
   return averageNightPricing;
@@ -76,7 +77,9 @@ export const HomeCard = ({ home, divider }: Props) => {
   return (
     <>
       <HomeContainer>
-        <HomePhoto src={home.photos[0].url} />
+        <HomePhoto
+          src={`${home.photos[0].url}?width=390&height=208&webp=true`}
+        />
         <HomeInfoContainer>
           <HomeRegionTitle>
             {home.regionName} • {home.stateName}, {home.stateCode}

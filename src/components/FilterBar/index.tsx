@@ -1,9 +1,6 @@
 import { useContext } from "react";
-import {
-  AppContext,
-  guestsOptions,
-  orderOptions,
-} from "../../store/AppContext";
+import { AppContext } from "../../store/AppContext";
+import { guestsOptions, orderOptions } from "../../store/useFilter";
 
 import { DateRangePicker } from "../DateRangePicker";
 import { Select } from "../Select";
@@ -16,13 +13,13 @@ export const FilterBar = () => {
     selectedRegion,
     handleChangeSelectedRegion,
     selectedBookingPeriod,
-    setSelectedBookingPeriod,
+    handleChangeSelectedBookingPeriod,
     selectedOrder,
-    setSelectedOrder,
+    handleChangeSelectedOrder,
     selectedGuests,
-    setSelectedGuests,
+    handleChangeSelectedGuests,
     coupon,
-    setCoupon,
+    handleChangeCoupon,
   } = useContext(AppContext);
 
   return (
@@ -39,7 +36,7 @@ export const FilterBar = () => {
         <DateRangePicker
           label="When"
           value={selectedBookingPeriod}
-          handleChange={setSelectedBookingPeriod}
+          handleChange={handleChangeSelectedBookingPeriod}
         />
 
         <Divider />
@@ -47,14 +44,14 @@ export const FilterBar = () => {
           label="Who"
           value={selectedGuests}
           options={guestsOptions}
-          handleChange={setSelectedGuests}
+          handleChange={handleChangeSelectedGuests}
         />
 
         <Divider />
         <Select
           label="Order"
           value={selectedOrder}
-          handleChange={setSelectedOrder}
+          handleChange={handleChangeSelectedOrder}
           options={orderOptions}
         />
       </FieldsContainer>
@@ -63,7 +60,7 @@ export const FilterBar = () => {
         label="Coupon"
         placeholder="Got a code?"
         value={coupon}
-        onChange={setCoupon}
+        onChange={handleChangeCoupon}
       />
     </FilterContainer>
   );
