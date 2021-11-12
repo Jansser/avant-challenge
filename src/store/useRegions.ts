@@ -16,9 +16,10 @@ export const initialRegionOption = {
 
 interface Props {
   pathname: string;
+  setPage: (page: number) => void;
 }
 
-export const useRegions = ({ pathname }: Props) => {
+export const useRegions = ({ pathname, setPage }: Props) => {
   const history = useHistory();
   const { search } = useLocation();
 
@@ -41,7 +42,7 @@ export const useRegions = ({ pathname }: Props) => {
         setSelectedRegion(region ? region : initialRegionOption);
       }
     }
-  }, [regionsOptions, pathname]);
+  }, [regionsOptions, pathname, setPage]);
 
   useEffect(() => {
     if (regionsData) {
@@ -62,6 +63,8 @@ export const useRegions = ({ pathname }: Props) => {
   }, [regionsData]);
 
   const handleChangeSelectedRegion = (region: Option) => {
+    setPage(1);
+
     history.push({
       pathname: `/regions/${region.label}`,
       search,
