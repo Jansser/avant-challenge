@@ -7,9 +7,9 @@ const HomesContainer = styled.main`
   margin-top: 30px;
   margin-left: 30px;
 
-  @media (min-width: ${({ theme }) => theme.colors.desktop}px) {
+  @media (min-width: ${({ theme }) => theme.media.desktop}px) {
     max-width: 1440px;
-    margin-top: 40px;
+    margin: 40px auto;
   }
 `;
 

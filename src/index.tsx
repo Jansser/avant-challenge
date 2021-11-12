@@ -23,23 +23,23 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <ApolloProvider client={client}>
-        <AppStateProvider>
-          <Header />
+        <BrowserRouter>
+          <AppStateProvider>
+            <Header />
 
-          <BrowserRouter>
             <Switch>
-              <Route exact path="/homes">
+              <Route exact path="/regions/:regionName">
                 <Homes />
               </Route>
 
-              <Route exact path="/regions/:regionName">
+              <Route exact path="/homes">
                 <Homes />
               </Route>
 
               <Redirect to="/homes" />
             </Switch>
-          </BrowserRouter>
-        </AppStateProvider>
+          </AppStateProvider>
+        </BrowserRouter>
       </ApolloProvider>
     </ThemeProvider>
   </React.StrictMode>,

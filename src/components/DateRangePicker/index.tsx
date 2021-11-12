@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { DateRange, RangeKeyDict, Range } from "react-date-range";
 import useOnclickOutside from "react-cool-onclickoutside";
@@ -7,7 +7,7 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
 import { theme } from "../../constants/theme";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import {
   DatePickerContainer,
   SelectContainer,
@@ -35,6 +35,14 @@ interface Props {
   handleChange: (value: BookingPeriod) => void;
 }
 
+const dateLabelFormat = "MMM dd, yyyy";
+const bookingPeriodDateFormat = "yyyy-MM-dd";
+
+const parseValueToDate = (value: string) =>
+  parse(value, bookingPeriodDateFormat, new Date());
+
+const formatValueToDateLabel = (value: Date) => format(value, dateLabelFormat);
+
 export const DateRangePicker = ({
   label,
   value,
@@ -54,6 +62,27 @@ export const DateRangePicker = ({
 
   const [valueLabel, setValueLabel] = useState("");
 
+  useEffect(() => {
+    if (value) {
+      const checkInDate = parseValueToDate(value.checkIn);
+      const checkOutDate = parseValueToDate(value.checkOut);
+
+      setValueLabel(
+        `${formatValueToDateLabel(checkInDate)} - ${formatValueToDateLabel(
+          checkOutDate
+        )} `
+      );
+
+      setDateRange([
+        {
+          startDate: checkInDate,
+          endDate: checkOutDate,
+          key: "selection",
+        },
+      ]);
+    }
+  }, [value]);
+
   const handleSelect = (dateRange: RangeKeyDict) => {
     if (dateRange.selection) {
       const { startDate, endDate } = dateRange.selection;
@@ -61,15 +90,12 @@ export const DateRangePicker = ({
       if (startDate && endDate) {
         setDateRange([dateRange.selection]);
 
-        const dateLabelFormat = "MMM dd, yyyy";
         setValueLabel(
           `${format(startDate, dateLabelFormat)} - ${format(
             endDate,
             dateLabelFormat
           )}`
         );
-
-        const bookingPeriodDateFormat = "yyyy-MM-dd";
 
         const bookingPeriod = {
           checkIn: format(startDate, bookingPeriodDateFormat),

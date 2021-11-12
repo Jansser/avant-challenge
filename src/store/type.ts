@@ -71,7 +71,7 @@ export interface AppState {
 
   //  HomeFilter
   selectedRegion: Option;
-  setSelectedRegion: (region: Option) => void;
+  handleChangeSelectedRegion: (region: Option) => void;
 
   selectedGuests: Option;
   setSelectedGuests: (order: Option) => void;

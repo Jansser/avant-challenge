@@ -15,6 +15,10 @@ const StyledNavItem = styled.div<Props>`
       color: ${theme.colors.accent};
     }
     
+    svg {
+      margin-left: 8px;
+    }
+
     ${
       isActive &&
       `&:before {

@@ -1,9 +1,11 @@
 import { useQuery } from "@apollo/client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { Option } from "../components/Select";
 import { GetHomes } from "./queries";
 import { AppState, BookingPeriod, HomesData } from "./type";
 import { initialRegionOption, useRegions } from "./useRegions";
+import queryString from "query-string";
 
 export const AppContext = React.createContext<AppState>({} as AppState);
 
@@ -32,11 +34,73 @@ export const orderOptions = [
 ];
 
 export const AppStateProvider = ({ children }: Props) => {
+  const { pathname, search } = useLocation();
+  const history = useHistory();
+
   const { regionsOptions } = useRegions();
 
-  // useFilters
   const [selectedRegion, setSelectedRegion] =
     useState<Option>(initialRegionOption);
+
+  useEffect(() => {
+    if (regionsOptions) {
+      let regionParam = "";
+
+      if (pathname.includes("/regions")) {
+        regionParam = pathname.split("/")[2];
+
+        const region = regionsOptions.find(
+          (region) => region.label === regionParam
+        );
+
+        setSelectedRegion(region ? region : initialRegionOption);
+      }
+    }
+  }, [regionsOptions, pathname]);
+
+  const handleChangeSelectedRegion = (region: Option) => {
+    history.push({
+      pathname: `/regions/${region.label}`,
+    });
+    setSelectedRegion(region);
+  };
+
+  useEffect(() => {
+    const queryStringParams = queryString.parse(search);
+
+    if (queryStringParams.guests) {
+      const guestsOption = guestsOptions.find(
+        (option) => option.value === Number(queryStringParams.guests)
+      );
+
+      if (guestsOption) {
+        setSelectedGuests(guestsOption);
+      }
+    }
+
+    if (queryStringParams.order) {
+      const orderOption = orderOptions.find(
+        (option) =>
+          option.value.toLowerCase() ===
+          queryStringParams.order?.toString().toLowerCase()
+      );
+
+      if (orderOption) {
+        setSelectedOrder(orderOption);
+      }
+    }
+
+    if (queryStringParams.checkIn && queryStringParams.checkOut) {
+      setSelectedBookingPeriod({
+        checkIn: queryStringParams.checkIn.toString(),
+        checkOut: queryStringParams.checkOut.toString(),
+      });
+    }
+
+    if (queryStringParams.coupon) {
+      setCoupon(queryStringParams.coupon.toString());
+    }
+  }, [search]);
 
   const [selectedOrder, setSelectedOrder] = useState<Option>(orderOptions[0]);
 
@@ -70,7 +134,7 @@ export const AppStateProvider = ({ children }: Props) => {
   const stateValue: AppState = {
     regionsOptions,
     selectedRegion,
-    setSelectedRegion,
+    handleChangeSelectedRegion,
 
     selectedBookingPeriod,
     setSelectedBookingPeriod,

@@ -3,6 +3,7 @@ import styled from "styled-components";
 const HomeSkeletonContainer = styled.div`
   display: flex;
   padding-bottom: 20px;
+  min-width: 800px;
 
   span.react-loading-skeleton {
     margin-bottom: 4px;

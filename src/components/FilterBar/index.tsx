@@ -14,7 +14,7 @@ export const FilterBar = () => {
   const {
     regionsOptions,
     selectedRegion,
-    setSelectedRegion,
+    handleChangeSelectedRegion,
     selectedBookingPeriod,
     setSelectedBookingPeriod,
     selectedOrder,
@@ -31,7 +31,7 @@ export const FilterBar = () => {
         <Select
           label="Where"
           value={selectedRegion}
-          handleChange={setSelectedRegion}
+          handleChange={handleChangeSelectedRegion}
           options={regionsOptions}
         />
 
