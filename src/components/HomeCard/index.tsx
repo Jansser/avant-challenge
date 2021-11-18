@@ -76,7 +76,7 @@ export const HomeCard = ({ home, divider }: Props) => {
 
   return (
     <>
-      <HomeContainer>
+      <HomeContainer data-cy="home-card">
         <HomePhoto
           src={`${home.photos[0].url}?width=390&height=208&webp=true`}
         />

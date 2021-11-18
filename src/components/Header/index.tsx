@@ -8,11 +8,14 @@ export const Header = () => {
   return (
     <HeaderContainer>
       <NavbarContainer>
-        <Logo />
+        <a href="/homes">
+          <Logo />
+        </a>
+
         <Navbar />
         <ButtonsContainer>
           <Button label="Sign In" onClick={() => {}}></Button>
-          <Button bordered label="Sign up" onClick={() => {}}></Button>
+          <Button bordered label="Sign Up" onClick={() => {}}></Button>
         </ButtonsContainer>
       </NavbarContainer>
       <FilterBar />

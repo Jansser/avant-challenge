@@ -19,7 +19,7 @@ export const HomeSkeleton = ({ divider = false }: Props) => (
     borderRadius="2px"
     enableAnimation={false}
   >
-    <HomeSkeletonContainer>
+    <HomeSkeletonContainer data-cy="home-skeleton">
       <Skeleton width={390} height={208} />
 
       <HomeInfoSkeletonContainer>
