@@ -41,6 +41,7 @@ export interface Home {
   bathroomsCount: number;
 
   seasonPricing: HomeSeasonPricing;
+  periodPricing?: HomePricing;
 }
 
 export type HomePaginatedResult = {
@@ -85,6 +86,8 @@ export interface AppState {
   handleChangeCoupon: (coupon: string) => void;
 
   loadingHomes: boolean;
+  loadingPricing: boolean;
+  getHomePricing: (id: string) => HomePricing | undefined;
   count: number;
   homes: Home[];
   page: number;

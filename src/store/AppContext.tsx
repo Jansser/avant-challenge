@@ -1,8 +1,8 @@
-import { useQuery } from "@apollo/client";
-import React, { useState } from "react";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { GetHomes } from "./queries";
-import { AppState, HomesData } from "./type";
+import { GetHomePricing, GetHomes } from "./queries";
+import { AppState, HomePricingData, HomesData } from "./type";
 import { useFilter } from "./useFilter";
 import { useRegions } from "./useRegions";
 
@@ -94,6 +94,29 @@ export const AppStateProvider = ({ children }: Props) => {
     });
   };
 
+  const [getPricingData, { loading: loadingPricing, data: homesPricingData }] =
+    useLazyQuery<HomePricingData>(GetHomePricing);
+
+  const getHomePricing = (id: string) =>
+    homesPricingData?.homesPricing.find((pricing) => pricing.homeId === id);
+
+  useEffect(() => {
+    if (homesData && homesData.homes.results) {
+      const homes = homesData.homes.results;
+      const homesIds = homes.map((home) => home.id);
+
+      if (selectedBookingPeriod) {
+        getPricingData({
+          variables: {
+            coupon,
+            ids: homesIds,
+            period: selectedBookingPeriod,
+          },
+        });
+      }
+    }
+  }, [homesData, coupon, selectedBookingPeriod, getPricingData]);
+
   const stateValue: AppState = {
     regionsOptions,
 
@@ -114,6 +137,8 @@ export const AppStateProvider = ({ children }: Props) => {
 
     loadingHomes,
     page,
+    loadingPricing,
+    getHomePricing,
     loadMore,
     hasMore,
     count: homesData?.homes.count || 0,

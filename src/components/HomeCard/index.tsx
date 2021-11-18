@@ -40,19 +40,8 @@ const calculateAverageNightPrice = (
 };
 
 export const HomeCard = ({ home, divider }: Props) => {
-  const { selectedBookingPeriod, coupon } = useContext(AppContext);
-
-  const { loading: loadingPricing, data: pricingData } =
-    useQuery<HomePricingData>(GetHomePricing, {
-      variables: {
-        id: home.id,
-        coupon: coupon,
-        period: selectedBookingPeriod,
-      },
-      skip: !selectedBookingPeriod,
-    });
-
-  const bookingPeriodPricing = pricingData?.homesPricing[0];
+  const { selectedBookingPeriod, loadingPricing, getHomePricing } =
+    useContext(AppContext);
 
   const renderHomePricing = () => {
     if (!selectedBookingPeriod) {
@@ -61,6 +50,8 @@ export const HomeCard = ({ home, divider }: Props) => {
       if (loadingPricing) {
         return <PricingSkeleton />;
       } else {
+        const bookingPeriodPricing = getHomePricing(home.id);
+
         return (
           <Pricing
             title={`Total • ${bookingPeriodPricing?.numberOfNights} nights`}

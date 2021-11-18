@@ -57,8 +57,13 @@ export const GetHomes = gql`
 `;
 
 export const GetHomePricing = gql`
-  query getHomePricing($id: UUID, $period: BookingPeriod!, $coupon: String) {
-    homesPricing(ids: [$id], period: $period, coupon: $coupon) {
+  query getHomePricing(
+    $ids: [UUID]!
+    $period: BookingPeriod!
+    $coupon: String
+  ) {
+    homesPricing(ids: $ids, period: $period, coupon: $coupon) {
+      homeId
       numberOfNights
       total
     }
