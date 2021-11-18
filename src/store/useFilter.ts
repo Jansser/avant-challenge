@@ -66,7 +66,7 @@ export const useFilter = () => {
     if (queryStringParams.coupon) {
       setCoupon(queryStringParams.coupon.toString());
     }
-  }, []);
+  }, [search]);
 
   const setQueryStringParams = () => {
     history.push({

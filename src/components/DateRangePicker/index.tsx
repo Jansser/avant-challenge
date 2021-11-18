@@ -113,7 +113,11 @@ export const DateRangePicker = ({
 
   return (
     <SelectContainer>
-      <div onClick={toggleIsOpen} ref={datePickerRef}>
+      <div
+        data-cy="date-range-picker"
+        onClick={toggleIsOpen}
+        ref={datePickerRef}
+      >
         <SelectLabel>{label}</SelectLabel>
         <SelectHeader>
           {valueLabel ? (

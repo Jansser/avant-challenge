@@ -16,9 +16,10 @@ export const initialRegionOption = {
 
 interface Props {
   pathname: string;
+  resetPagination: () => void;
 }
 
-export const useRegions = ({ pathname }: Props) => {
+export const useRegions = ({ pathname, resetPagination }: Props) => {
   const history = useHistory();
   const { search } = useLocation();
 
@@ -62,10 +63,12 @@ export const useRegions = ({ pathname }: Props) => {
   }, [regionsData]);
 
   const handleChangeSelectedRegion = (region: Option) => {
+    resetPagination();
     history.push({
       pathname: `/regions/${region.label}`,
       search,
     });
+
     setSelectedRegion(region);
   };
 

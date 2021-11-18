@@ -3,7 +3,7 @@ import styled from "styled-components";
 const HomeContainer = styled.div`
   display: flex;
   padding-bottom: 20px;
-  min-width: 800px;
+  width: 1000px;
 `;
 
 const HomePhoto = styled.img`

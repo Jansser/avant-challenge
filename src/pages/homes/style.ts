@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const HomesContainer = styled.main`
+const HomesContainer = styled.div`
   display: flex;
   flex-direction: column;
 
@@ -11,6 +11,11 @@ const HomesContainer = styled.main`
     max-width: 1440px;
     margin: 40px auto 0;
   }
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  width: 100%;
 
   overflow: auto;
 `;
@@ -21,4 +26,4 @@ const ErrorMessage = styled.p`
   text-align: center;
 `;
 
-export { ErrorMessage, HomesContainer };
+export { ErrorMessage, HomesContainer, ContentContainer };
