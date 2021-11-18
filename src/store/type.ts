@@ -90,4 +90,5 @@ export interface AppState {
   page: number;
   hasMore: boolean;
   loadMore: (nextPage: number) => void;
+  errorMessage: string;
 }

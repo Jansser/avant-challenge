@@ -12,6 +12,7 @@ export const theme = {
     neutralExtremeLight: "#F7F7F7",
     neutralExtremeDark: "#505051",
     grayExtremelyLight: "#F4F7FA",
+    failure: "#E9305C",
   },
   media: {
     tablet: 768,

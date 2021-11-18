@@ -14,9 +14,26 @@ interface Props {
 
 export const AppStateProvider = ({ children }: Props) => {
   const { pathname } = useLocation();
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const resetPagination = () => {
+    const mainContainer = document.getElementById("main");
+
+    if (mainContainer) {
+      mainContainer.scroll({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+
+    setPage(1);
+    setHasMore(true);
+  };
 
   const { regionsOptions, selectedRegion, handleChangeSelectedRegion } =
-    useRegions({ pathname });
+    useRegions({ pathname, resetPagination });
 
   const {
     selectedBookingPeriod,
@@ -29,13 +46,11 @@ export const AppStateProvider = ({ children }: Props) => {
     handleChangeCoupon,
   } = useFilter();
 
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-
   const {
     loading: loadingHomes,
     data: homesData,
     fetchMore,
+    error,
   } = useQuery<HomesData>(GetHomes, {
     variables: {
       region: selectedRegion.value,
@@ -47,12 +62,14 @@ export const AppStateProvider = ({ children }: Props) => {
   });
 
   const loadMore = (nextPage: number) => {
+    setErrorMessage("");
+
     fetchMore({
       variables: { page: nextPage },
 
       updateQuery: (prevResult, { fetchMoreResult }) => {
         setHasMore(true);
-        if (!fetchMoreResult) {
+        if (!fetchMoreResult || !prevResult) {
           return prevResult;
         }
 
@@ -72,6 +89,8 @@ export const AppStateProvider = ({ children }: Props) => {
           },
         };
       },
+    }).catch(() => {
+      setErrorMessage("Oops, something went wrong!");
     });
   };
 
@@ -99,6 +118,7 @@ export const AppStateProvider = ({ children }: Props) => {
     hasMore,
     count: homesData?.homes.count || 0,
     homes: homesData?.homes.results || [],
+    errorMessage: error ? "Oops, something went wrong!" : errorMessage,
   };
 
   return (

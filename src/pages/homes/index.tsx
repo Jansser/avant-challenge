@@ -6,7 +6,7 @@ import { HomeSkeleton } from "../../components/HomeCard/components/HomeSkeleton"
 import { HomeTitle } from "../../components/HomeTitle";
 import { LoadingMore } from "../../components/LoadingMore";
 import { AppContext } from "../../store/AppContext";
-import { HomesContainer } from "./style";
+import { ErrorMessage, HomesContainer } from "./style";
 
 export const Homes = () => {
   const {
@@ -18,9 +18,10 @@ export const Homes = () => {
     page,
     hasMore,
     loadMore,
+    errorMessage,
   } = useContext(AppContext);
 
-  const hasHomes = !loadingHomes && homes.length > 0;
+  const hasHomes = !loadingHomes && count > 0;
 
   const handleScroll = ({ currentTarget }: React.UIEvent) => {
     const scrollToTheEnd =
@@ -33,15 +34,19 @@ export const Homes = () => {
     }
   };
 
+  if (errorMessage) return <ErrorMessage>{errorMessage}</ErrorMessage>;
+
   return (
-    <HomesContainer onScroll={(e) => handleScroll(e)}>
+    <HomesContainer id="main" onScroll={(e) => handleScroll(e)}>
       <HomeTitle loading={loadingHomes} count={count}></HomeTitle>
-      {loadingHomes && (
+      {loadingHomes ? (
         <>
           <HomeSkeleton divider />
           <HomeSkeleton divider />
           <HomeSkeleton />
         </>
+      ) : (
+        count === 0 && <EmptyResults selectedRegion={selectedRegion} />
       )}
 
       {homes.map((home) => (
@@ -49,8 +54,6 @@ export const Homes = () => {
       ))}
 
       {hasHomes && hasMore && <LoadingMore />}
-
-      {!hasHomes && <EmptyResults selectedRegion={selectedRegion} />}
     </HomesContainer>
   );
 };

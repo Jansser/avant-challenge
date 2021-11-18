@@ -9,10 +9,16 @@ const HomesContainer = styled.main`
 
   @media (min-width: ${({ theme }) => theme.media.desktop}px) {
     max-width: 1440px;
-    margin: 40px auto;
+    margin: 40px auto 0;
   }
 
   overflow: auto;
 `;
 
-export { HomesContainer };
+const ErrorMessage = styled.p`
+  color: ${({ theme }) => theme.colors.failure};
+  font-weight: 600;
+  text-align: center;
+`;
+
+export { ErrorMessage, HomesContainer };
